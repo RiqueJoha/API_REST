@@ -3,6 +3,7 @@ import express from "express";
 const app=express();
 
 app.get("",(req,res)=>{
+    console.log(req.body)
     res.send("<h1>Ruta vacia 0</h1>")
 })
 

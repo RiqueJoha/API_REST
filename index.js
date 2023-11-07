@@ -8,7 +8,8 @@ app.use(cors())
 
 app.get("",(req,res)=>{
     console.log(req.body)
-    res.send("<h1>Ruta vacia 0</h1>")
+   /*  res.send("<h1>Ruta vacia 0</h1>") */
+   res.json(req.body)
 })
 
 app.get("/api",(req,res)=>{

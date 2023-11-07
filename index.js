@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 
 const app=express();
 
 app.use(express.json());
+app.use(cors())
 
 app.get("",(req,res)=>{
     console.log(req.body)
@@ -37,8 +39,8 @@ app.get("/api/:id/:nombre",(req,res)=>{
     res.send(`<h1>Ruta usada 3 | id: ${req.params.id} nombre: ${req.params.nombre}</h1>`)
 })
 
-app.listen(3000,()=>{
-    console.log("Servidor Iniciado")
+app.listen(process.env.PORT||3000,()=>{
+    console.log("Servidor Iniciado en", process.env.PORT||3000);
 });
 
 app.use((req,res)=>{

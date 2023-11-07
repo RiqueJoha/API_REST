@@ -14,6 +14,21 @@ app.get("/api",(req,res)=>{
     res.send(`<h1>Ruta usada 1</h1>`)
 })
 
+app.post("/api",(req,res)=>{
+    console.log(req.query);
+    res.status(201).send(`<h1>Ruta para crear un elemento</h1>`)
+})
+
+app.put("/api",(req,res)=>{
+    console.log(req.query);
+    res.send(`<h1>Ruta para actualizar un elemento</h1>`)
+})
+
+app.delete("/api",(req,res)=>{
+    console.log(req.query);
+    res.send(`<h1>Ruta para eliminar un elemento</h1>`)
+})
+
 app.get("/api/:id",(req,res)=>{
     res.send(`<h1>Ruta usada 2 | id: ${req.params.id}</h1>`)
 })

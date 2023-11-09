@@ -2,7 +2,7 @@ import { createPool } from "mysql2/promise";
 import configuracion from "./configuración.js"
 
 const CREAR_TABLA = `
-CREATE TABLE nacimientos(
+CREATE TABLE IF NOT EXISTS nacimientos(
     id_padron INT NOT NULL AUTO_INCREMENT,
     sexo VARCHAR(30) NOT NULL,
     nombre VARCHAR(30) NOT NULL,

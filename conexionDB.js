@@ -1,12 +1,15 @@
 import{createPool}from "mysql2/promise";
+import configuracion from "./configuración.js"
+
+console.log(configuracion.PORT)
 
 const pool=createPool(
     {
-    host:"localhost",
-    port:3306,
-    user:"root",
-    password:"Ri35317848",
-    database:"HC"
+    host:configuracion.HOST,
+    port:configuracion.PORT,
+    user:configuracion.USER,
+    password:configuracion.PASSWORD,
+    database:configuracion.NAME
 
     }
 );

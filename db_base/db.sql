@@ -10,3 +10,13 @@ apellido VARCHAR(30) NOT NULL,
 peso FLOAT,
 PRIMARY KEY (id_padron)
 );
+
+ DESCRIBE nacimientos;
+
+INSERT INTO nacimientos (sexo, nombre,apellido, peso)VALUE("Masculino","Daniel","Peralta",3.1);
+
+UPDATE nacimientos SET sexo="", nombre="",apellido="", peso=""  WHERE id_padron=2;
+
+DELETE FROM nacimientos where id_padron=6;
+
+SELECT * FROM nacimientos;

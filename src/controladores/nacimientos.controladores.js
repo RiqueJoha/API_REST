@@ -1,14 +1,28 @@
 import pool from "../conexionDB.js"
 
+/**
+ * Devuelve todos los productos de la base de dato si existe
+ * @param {Object} req de la consulta
+ * @param {Object} res de la consulta
+ */
+
 async function obtenerNacimientos(req, res) {
     try {
         const [resultado] = await pool.query("SELECT * FROM nacimientos ");
-        console.log(resultado);
-        res.json(resultado)
-    }catch(error){
+        /*   console.log(info); */
+        if (!resultado.length) {
+            res.status(404).json(
+                {
+                    mensaje: "no se encontraron productos"
+                }
+            )
+        } else {
+            res.json(resultado)
+        }
+    } catch (error) {
         res.status(500).json(
             {
-                informe:"Algo salio mal",
+                informe: "Algo salio mal",
                 error: error
             }
         )
@@ -20,10 +34,37 @@ async function obtenerNacimientos(req, res) {
     res.send(`<h1>Ruta usada 1</h1>`)
 } */
 
+/**
+ * Devuelve el nacimiento de la base de datos si existe
+ * @param {*} req de la consulta
+ * @param {*} res de la consulta
+ */
 async function obtenerNacimiento(req, res) {
-    const [resultado] = await pool.query("SELECT * FROM nacimientos WHERE id_padron= ? ", req.params.id_padron);
-    /* res.send(`<h1>Ruta usada 2 | id: ${req.params.id}</h1>`) */
-    res.json(resultado)
+    const ID = req.params.id_padron;
+
+    try {
+        const [resultado] = await pool.query("SELECT * FROM nacimientos WHERE id_padron= ? ", req.params.id_padron);
+        /* res.send(`<h1>Ruta usada 2 | id: ${req.params.id}</h1>`) */
+        if (!resultado.length) {
+            res.status(404).json(
+                {
+                    info: "No se encontro el producto con id:" + ID
+                }
+            )
+        } else {
+            res.json(resultado)
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                informe: "Algo salio mal",
+                error: error
+            }
+        )
+    
+    }
+
+
 }
 
 async function crearNacimientos(req, res) {

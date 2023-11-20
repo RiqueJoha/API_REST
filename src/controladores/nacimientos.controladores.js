@@ -61,15 +61,39 @@ async function obtenerNacimiento(req, res) {
                 error: error
             }
         )
-    
+
     }
 
 
 }
 
 async function crearNacimientos(req, res) {
-    /* console.log(req.query); */
-    res.status(201).json(req.body);
+    const { sexo, nombre, apellido, peso } = req.body;
+    try {
+        
+        const [info] = await pool.query(`INSERT INTO nacimientos (sexo, nombre,apellido, peso)VALUE(?,?,?, ?);`, [sexo, nombre, apellido, peso]);
+        const [resultado] = await pool.query("SELECT * FROM nacimientos WHERE id_padron= ? ", [info.insertId]);
+        /* res.status(201).json(req.body);
+        console.log(info) */
+        if (info.affectedRows != 1 || !resultado.length) {
+            res.status(404).json({
+                mensaje:"Error al agregar nacimiento"
+            })
+        } else {
+            res.status(201).json(req.body);
+            idNuevo:info.insertId;
+            nacimiento: resultado;
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                informe: "Algo salio mal",
+                error: error
+            }
+        )
+
+    }
+
 };
 
 async function actualizarNacimientos(req, res) {

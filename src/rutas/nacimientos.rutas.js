@@ -9,9 +9,9 @@ ruta.get("", nacimientosControladores.obtenerNacimientos);
 
 ruta.post("", nacimientosControladores.crearNacimientos);
 
-ruta.put("",  nacimientosControladores.actualizarNacimientos);
+ruta.put("/:id_padron",  nacimientosControladores.actualizarNacimientos);
 
-ruta.delete("",  nacimientosControladores.eliminarNacimientos);
+ruta.delete("/:id_padron",  nacimientosControladores.eliminarNacimientos);
 
 ruta.get("/:id_padron", nacimientosControladores.obtenerNacimiento );
 

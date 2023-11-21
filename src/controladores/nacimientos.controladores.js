@@ -7,6 +7,7 @@ import pool from "../conexionDB.js"
  */
 
 async function obtenerNacimientos(req, res) {
+    const ID=req.params.id_padron;
     try {
         const [resultado] = await pool.query("SELECT * FROM nacimientos ");
         /*   console.log(info); */
@@ -70,18 +71,19 @@ async function obtenerNacimiento(req, res) {
 async function crearNacimientos(req, res) {
     const { sexo, nombre, apellido, peso } = req.body;
     try {
-        
+
         const [info] = await pool.query(`INSERT INTO nacimientos (sexo, nombre,apellido, peso)VALUE(?,?,?, ?);`, [sexo, nombre, apellido, peso]);
         const [resultado] = await pool.query("SELECT * FROM nacimientos WHERE id_padron= ? ", [info.insertId]);
         /* res.status(201).json(req.body);
         console.log(info) */
+        console.log(info.affectedRows);
         if (info.affectedRows != 1 || !resultado.length) {
             res.status(404).json({
-                mensaje:"Error al agregar nacimiento"
+                mensaje: "Error al agregar nacimiento"
             })
         } else {
             res.status(201).json(req.body);
-            idNuevo:info.insertId;
+            idNuevo: info.insertId;
             nacimiento: resultado;
         }
     } catch (error) {
@@ -97,14 +99,63 @@ async function crearNacimientos(req, res) {
 };
 
 async function actualizarNacimientos(req, res) {
-    console.log(req.query);
-    res.send(`<h1>Ruta para actualizar un elemento</h1>`)
+ /*    console.log(req.query);
+    const ID = req.params.id_padron; */
+    console.log(ID);
+    try {
+        const { sexo, nombre, apellido, peso } = req.body;
+        const [info] = await pool.query(`UPDATE nacimientos SET sexo=?, nombre=?,apellido=?, peso=?  WHERE id_padron=?;`, [sexo, nombre, apellido, peso, ID]);
+       /*  console.log(info)
+        res.send(`<h1>Ruta para actualizar un elemento</h1>`) */
+        if (info.affectedRows !== 1 || info.warningStatus !== 0) {
+            res.status(404).json({
+                info:"Error al actualizar el dato con id:"+ ID
+            })
+        } else {
+            res.json({
+                info:"Producto actualizado"
+            });
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                informe: "Algo salio mal al actualizar",
+                error: error
+            }
+        )
+    }
+
 }
 
 async function eliminarNacimientos(req, res) {
-    console.log(req.query);
-    res.send(`<h1>Ruta para eliminar un elemento</h1>`)
-}
+/*     console.log(req.query);
+    res.send(`<h1>Ruta para eliminar un elemento</h1>`) */
+    const ID=req.params.id_padron;
+    try {
+        const [resultado] = await pool.query("DELETE FROM nacimientos where id_padron= ?;",[ID]);
+        /*   console.log(info); */
+        console.log(resultado);
+        if (resultado.affectedRows!==1) {
+            res.status(404).json(
+                {
+                    mensaje: "No se encontraron id "+ ID
+                }
+            )
+        } else {
+            res.json(
+            {info:"Nacimiento con id: "+ ID + " eliminado"}
+            )
+        }
+    } catch (error) {
+        res.status(500).json(
+            {
+                informe: "Algo salio mal",
+                error: error
+            }
+        )
+    }
+};
+
 
 
 

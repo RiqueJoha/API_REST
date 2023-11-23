@@ -1,15 +1,16 @@
 import express from "express";
 import cors from "cors";
 import nacimientosRuta from "./rutas/nacimientos.rutas.js";
+import configuracion from "./configuración.js";
 
 const app = express();
 
-const urlPermitidas=["http://127.0.0.1:5500/"];
+const urlPermitidas=[configuracion.URL_PERMIT_1];
 
 app.use(express.json({
     origin: (origin, callback) => {
         console.log(origin);
-        if (urlPermitidas.includes(origin)||!origin) {
+        if (urlPermitidas.includes(origin)) {
             callback(null,true);
         } else{
             const error=new Error("Error no permitido por CORS");
